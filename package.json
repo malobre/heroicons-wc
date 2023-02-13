@@ -1,0 +1,20 @@
+{
+  "name": "heroicons-wc",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "Maël Obréjan <mael.obrejan@protonmail.com>",
+  "description": "Heroicons as Web Components",
+  "type": "module",
+  "files": [
+    "20/",
+    "24/"
+  ],
+  "scripts": {
+    "build": "node ./scripts/build.js"
+  },
+  "devDependencies": {
+    "heroicons": "^2.0.16",
+    "camelcase": "^7.0.1",
+    "ora": "^6.1.2"
+  }
+}
