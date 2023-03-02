@@ -56,13 +56,7 @@ const utils = {
 const style = `
   <style>
     :host {
-      display: contents;
-    }
-
-    svg {
-      display: block;
-      height: inherit;
-      width: inherit;
+      display: inline-block;
     }
   </style>
 `.replaceAll(/[\n\r ]+/g, "");

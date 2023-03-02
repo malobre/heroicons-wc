@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Components are now displayed as `inline-block`.
+
 ## [0.1.0] - 2023-03-01
 
 - Initial release
