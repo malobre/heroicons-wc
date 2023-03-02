@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Components are `aria-hidden="true"` by default.
+
 ### Fixed
 
 - Components are now displayed as `inline-block`.

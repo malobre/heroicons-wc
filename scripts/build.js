@@ -92,6 +92,8 @@ async function build(iconDir, distDir) {
             constructor() {
               super();
 
+              this.ariaHidden ??= "true";
+
               this.attachShadow({ mode: "open" }).innerHTML =
                 '${style}${svg}';
             }
