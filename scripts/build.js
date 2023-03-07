@@ -57,6 +57,7 @@ const style = `
   <style>
     :host {
       display: inline-block;
+      vertical-align: middle;
     }
   </style>
 `.replaceAll(/[\n\r ]+/g, "");
