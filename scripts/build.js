@@ -14,6 +14,7 @@ const utils = {
     self.cache ??= new Map();
 
     if (!self.cache.has(strings)) {
+      // Split strings by lines while keeping string groups.
       const lines = strings
         .reduce((buf, slice) => {
           let [line, ...lines] = buf;
@@ -27,6 +28,7 @@ const utils = {
         }, [])
         .reverse();
 
+      // Compute minimum indentation.
       const minIndent = Math.min(
         ...lines
           .map(([line]) => [line, line.replace(/^ +/, "")])
