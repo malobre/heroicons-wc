@@ -58,8 +58,7 @@ const utils = {
 const style = `
   <style>
     :host {
-      display: inline-block;
-      vertical-align: middle;
+      display: block;
     }
   </style>
 `.replaceAll(/[\n\r ]+/g, "");
