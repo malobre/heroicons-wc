@@ -103,9 +103,9 @@ async function build(iconDir, distDir) {
           }
 
           window.customElements.define("${tagName}", ${className});
-        `.trimStart();
+        `;
 
-        await writeFile(`${distDir}/${iconNamePascalCase}.js`, content);
+        await writeFile(`${distDir}/${iconNamePascalCase}.js`, content.trim());
       }),
   );
 }
