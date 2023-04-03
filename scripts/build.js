@@ -104,7 +104,22 @@ async function build(iconDir, distDir) {
           window.customElements.define("${tagName}", ${className});
         `;
 
-        await writeFile(`${distDir}/${iconNamePascalCase}.js`, content.trim());
+        const declaration = utils.dedent`
+          export default class ${className} extends HTMLElement {
+            constructor();
+          }
+
+          declare global {
+            interface HTMLElementTagNameMap {
+              "${tagName}": ${className};
+            }
+          }
+        `;
+
+        await Promise.all([
+          writeFile(`${distDir}/${iconNamePascalCase}.js`, content.trim()),
+          writeFile(`${distDir}/${iconNamePascalCase}.d.ts`, declaration.trim()),
+        ]);
       }),
   );
 }

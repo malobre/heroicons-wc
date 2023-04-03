@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Typescript declaration file generation.
+
 ### Changed
 
 - Components are `aria-hidden="true"` by default.
