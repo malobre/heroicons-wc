@@ -1,6 +1,6 @@
 # [Heroicons] as [Web Components]
 
-This package allows you to generate web components from heroicons.
+This package consist of a build script that generate web components for every heroicon.
 
 Once generated, icon components are stored in individual files in PascalCase (e.g: `20/solid/AcademicCap.js`)
 and are self-registered in kebab-case with a `heroicon` prefix, e.g: `heroicon-academic-cap`.
