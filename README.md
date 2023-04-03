@@ -51,6 +51,10 @@ heroicons-wc
 
 ```
 
+## Typescript
+
+The build script also generate declaration files for every component.
+
 ## License
 
 This package (**not the icons**) is MIT licensed.
