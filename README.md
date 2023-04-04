@@ -30,6 +30,10 @@ export default class MyElement extends LitElement {
 customElements.define("my-element", MyElement);
 ```
 
+## Typescript
+
+The build script also generate declaration files for every component.
+
 ## Package Structure
 
 ```
@@ -50,10 +54,6 @@ heroicons-wc
         └── ...
 
 ```
-
-## Typescript
-
-The build script also generate declaration files for every component.
 
 ## License
 
