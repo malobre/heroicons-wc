@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Components tag prefix is replaced with `hi-SIZE-STYLE-`, e.g: `hi-20-solid-`.
+
 ## [0.2.0] - 2023-04-03
 
 ### Added

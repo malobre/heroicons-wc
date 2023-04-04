@@ -63,7 +63,7 @@ const style = `
   </style>
 `.replaceAll(/[\n\r ]+/g, "");
 
-async function build(iconDir, distDir) {
+async function build(iconDir, distDir, tagPrefix) {
   const entries = await readdir(iconDir, { withFileTypes: true });
 
   await Promise.all(
@@ -81,7 +81,7 @@ async function build(iconDir, distDir) {
         const iconNamePascalCase = utils.pascalCase(iconNameKebabCase);
 
         const className = `${iconNamePascalCase}IconElement`;
-        const tagName = `heroicon-${iconNameKebabCase}`;
+        const tagName = `${tagPrefix}-${iconNameKebabCase}`;
 
         const svg = (await readFile(`${iconDir}/${inputFilename}`))
           .toString()
@@ -143,7 +143,7 @@ await (async () => {
 
   await Promise.all(
     ["20/solid", "24/solid", "24/outline"].map((path) =>
-      build(`./node_modules/heroicons/${path}`, `./${path}`),
+      build(`./node_modules/heroicons/${path}`, `./${path}`, "hi-".concat(path.replace("/", "-"))),
     ),
   );
 
