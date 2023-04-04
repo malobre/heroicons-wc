@@ -34,6 +34,15 @@ customElements.define("my-element", MyElement);
 
 The build script also generate declaration files for every component.
 
+## Files sizes
+
+The generated files are not minified, but they are still lightweight:
+| compression | min   | max    | average | median |
+|-------------|-------|--------|---------|--------|
+| raw         | ~500B | ~2800B | ~830B   | ~770B  |
+| gzip        | ~360B | ~1200B | ~510B   | ~490B  |
+| bortli      | ~270B | ~1040B | ~410B   | ~390B  |
+
 ## Package Structure
 
 ```
