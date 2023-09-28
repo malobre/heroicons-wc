@@ -13,8 +13,8 @@
     "build": "node ./scripts/build.js"
   },
   "devDependencies": {
-    "heroicons": "^2.0.16",
-    "camelcase": "^7.0.1",
-    "ora": "^6.1.2"
+    "heroicons": "^2.0.18",
+    "camelcase": "^8.0.0",
+    "ora": "^7.0.1"
   }
 }
