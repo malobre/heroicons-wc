@@ -3,7 +3,7 @@
 This package consist of a build script that generate web components for every heroicon.
 
 Once generated, icon components are stored in individual files in PascalCase (e.g: `20/solid/AcademicCap.js`)
-and are self-registered in kebab-case with a `heroicon` prefix, e.g: `heroicon-academic-cap`.
+and are self-registered in kebab-case with a `hi` prefix, e.g: `hi-20-solid-academic-cap`.
 
 ## Installation
 
@@ -22,7 +22,7 @@ import "heroicons-wc/24/outline/ShoppingCart";
 export default class MyElement extends LitElement {
   render() {
     return html`
-      Cart icon: <heroicon-shopping-cart></heroicon-shopping-cart>
+      Cart icon: <hi-24-outline-shopping-cart></hi-24-outline-shopping-cart>
     `;
   }
 }
