@@ -133,7 +133,10 @@ async function build(iconDir, distDir, tagPrefix) {
 
         await Promise.all([
           writeFile(`${distDir}/${iconNamePascalCase}.js`, content.trim()),
-          writeFile(`${distDir}/${iconNamePascalCase}.d.ts`, declaration.trim()),
+          writeFile(
+            `${distDir}/${iconNamePascalCase}.d.ts`,
+            declaration.trim(),
+          ),
         ]);
       }),
   );
@@ -158,7 +161,11 @@ await (async () => {
 
   await Promise.all(
     ["20/solid", "24/solid", "24/outline"].map((path) =>
-      build(`./node_modules/heroicons/${path}`, `./${path}`, "hi-".concat(path.replace("/", "-"))),
+      build(
+        `./node_modules/heroicons/${path}`,
+        `./${path}`,
+        "hi-".concat(path.replace("/", "-")),
+      ),
     ),
   );
 
