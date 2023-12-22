@@ -6,50 +6,65 @@ const utils = {
   pascalCase: (str) => camelCase(str, { pascalCase: true }),
 
   // Dedent, outdent, unindent ?
-  // A tag function that removes leading spaces until a line reaches the left margin.
-  // It also caches the input strings for better performance.
+  // A tag function that removes:
+  // - space indentations,
+  // - empty or whitespace-only leading & trailing lines.
   dedent: function dedent(strings, ...values) {
-    const self = dedent;
+    const lines = String.raw({ raw: strings }, ...values).split("\n");
 
-    self.cache ??= new Map();
+    const firstNonEmptyLineIndex = Math.max(
+      lines.findIndex((line) => line.trimEnd().length > 0),
+      0,
+    );
 
-    if (!self.cache.has(strings)) {
-      // Split strings by lines while keeping string groups.
-      const lines = strings
-        .reduce((buf, slice) => {
-          let [line, ...lines] = buf;
+    const lastNonEmptyLineIndex = Math.max(
+      lines.findLastIndex((line) => line.trimEnd().length > 0),
+      0,
+    );
 
-          for (const end of slice.split("\n")) {
-            lines = [[...(line ?? []), end], ...lines];
-            line = undefined;
-          }
+    const INDENTATION_CHAR = " ";
 
-          return lines;
-        }, [])
-        .reverse();
+    // compute the minimum indentation level
+    let minIndentation;
+    for (let n = firstNonEmptyLineIndex; n <= lastNonEmptyLineIndex; n++) {
+      let indentation;
 
-      // Compute minimum indentation.
-      const minIndent = Math.min(
-        ...lines
-          .map(([line]) => [line, line.replace(/^ +/, "")])
-          .filter(([_, trimmedLine]) => trimmedLine.length > 0)
-          .map(([line, trimmedLine]) => line.length - trimmedLine.length),
-      );
+      const line = lines[n];
 
-      self.cache.set(
-        strings,
-        lines
-          .map(([start, ...rest]) => [start.slice(minIndent), ...rest])
-          .reduce(([end, ...buf], [start, ...rest]) => [
-            ...rest.reverse(),
-            `${end}\n${start}`,
-            ...buf,
-          ])
-          .reverse(),
-      );
+      // compute indentation
+      for (let i = 0; i < line.length; i++) {
+        if (line[i] !== INDENTATION_CHAR) {
+          indentation = i;
+          break;
+        }
+      }
+
+      // line consisting entirely of `INDENTATION_CHAR`
+      // this can only happen between non-empty lines
+      if (indentation === undefined) continue;
+
+      // new minimum indentation
+      if (indentation < (minIndentation ?? Infinity)) {
+        minIndentation = indentation;
+
+        // short-circuit absolute minimum
+        if (minIndentation === 0) {
+          break;
+        }
+      }
     }
 
-    return String.raw({ raw: self.cache.get(strings) }, ...values);
+    minIndentation ??= 0;
+
+    // remove minimum indentation
+    const dedentedLines = [];
+    for (let n = firstNonEmptyLineIndex; n <= lastNonEmptyLineIndex; n++) {
+      const line = lines[n];
+
+      dedentedLines.push(line.substring(minIndentation));
+    }
+
+    return dedentedLines.join("\n");
   },
 };
 
