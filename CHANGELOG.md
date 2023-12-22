@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Components tag prefix is replaced with `hi-SIZE-STYLE-`, e.g: `hi-20-solid-`.
 - Components are only defined if they are not already registered with the same tag name and class.
+- heroicons updated to version 2.1.1
 
 ## [0.2.0] - 2023-04-03
 
