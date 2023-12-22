@@ -116,7 +116,9 @@ async function build(iconDir, distDir, tagPrefix) {
             }
           }
 
-          window.customElements.define("${tagName}", ${className});
+          if (!Object.is(customElements.get("${tagName}"), ${className})) {
+            window.customElements.define("${tagName}", ${className});
+          }
         `;
 
         const declaration = utils.dedent`
