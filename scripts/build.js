@@ -145,27 +145,23 @@ async function build(iconDir, distDir, tagPrefix) {
 }
 
 await (async () => {
+  const sources = ["24/solid", "24/outline", "20/solid", "16/solid"];
+
   const spinner = ora().start("Cleaning up previous build");
 
-  await Promise.all(
-    ["./20", "./24"].map((path) => rm(path, { recursive: true })),
-  );
+  await Promise.all(sources.map((path) => rm(path, { recursive: true })));
 
   spinner.succeed().start("Creating artifacts directories");
 
-  await Promise.all(
-    ["./20/solid", "./24/solid", "./24/outline"].map((path) =>
-      mkdir(path, { recursive: true }),
-    ),
-  );
+  await Promise.all(sources.map((path) => mkdir(path, { recursive: true })));
 
   spinner.succeed().start("Generating web components");
 
   await Promise.all(
-    ["20/solid", "24/solid", "24/outline"].map((path) =>
+    sources.map((path) =>
       build(
         `./node_modules/heroicons/${path}`,
-        `./${path}`,
+        path,
         "hi-".concat(path.replace("/", "-")),
       ),
     ),

@@ -5,7 +5,7 @@
   "author": "Maël Obréjan <mael.obrejan@protonmail.com>",
   "description": "Heroicons as Web Components",
   "type": "module",
-  "files": ["20/", "24/"],
+  "files": ["24/", "20/", "16/"],
   "scripts": {
     "build": "node ./scripts/build.js"
   },
