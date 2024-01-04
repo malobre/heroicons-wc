@@ -7,7 +7,7 @@
   "type": "module",
   "files": ["24/", "20/", "16/"],
   "scripts": {
-    "build": "node ./scripts/build.js"
+    "prepare": "node ./scripts/build.js"
   },
   "devDependencies": {
     "heroicons": "^2.1.1",

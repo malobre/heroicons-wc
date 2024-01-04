@@ -8,7 +8,6 @@ and are self-registered in kebab-case with a `hi` prefix, e.g: `hi-20-solid-acad
 ## Installation
 
 1. Clone repo
-1. `npm run build`
 1. `npm pack`
 1. Move artifact to your project (e.g: in a `vendor` directory)
 1. Install (e.g: `npm i vendor/heroicons-wc-x.x.x.tgz`)
