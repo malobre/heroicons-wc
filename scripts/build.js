@@ -105,8 +105,11 @@ async function build(iconDir, distDir, tagPrefix) {
 
         const svg = (await readFile(`${iconDir}/${inputFilename}`))
           .toString()
+          // Escape single quotes and backslashes
           .replaceAll(/(['\\])/g, "\\$1")
+          // Remove new lines and carriage returns
           .replaceAll(/[\n\r]+/g, "")
+          // Remove whitespaces between elements
           .replaceAll(/>\s+</g, "><");
 
         const content = utils.dedent`
