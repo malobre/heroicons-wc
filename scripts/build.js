@@ -89,6 +89,11 @@ async function build(iconDir, distDir, tagPrefix) {
           return false;
         }
 
+        if (!entry.name.endsWith(".svg")) {
+          console.warn(`\nSkipping non-svg entry: ${entry.name}`);
+          return false;
+        }
+
         return true;
       })
       .map(async ({ name: inputFilename }) => {
