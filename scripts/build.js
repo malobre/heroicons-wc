@@ -1,6 +1,7 @@
 import { mkdir, readdir, readFile, writeFile, rm } from "node:fs/promises";
 import ora from "ora";
 import camelCase from "camelcase";
+import svgo from "svgo";
 
 const utils = {
   pascalCase: (str) => camelCase(str, { pascalCase: true }),
@@ -103,14 +104,9 @@ async function build(iconDir, distDir, tagPrefix) {
         const className = `${iconNamePascalCase}IconElement`;
         const tagName = `${tagPrefix}-${iconNameKebabCase}`;
 
-        const svg = (await readFile(`${iconDir}/${inputFilename}`))
-          .toString()
-          // Escape single quotes and backslashes
-          .replaceAll(/(['\\])/g, "\\$1")
-          // Remove new lines and carriage returns
-          .replaceAll(/[\n\r]+/g, "")
-          // Remove whitespaces between elements
-          .replaceAll(/>\s+</g, "><");
+        const svg = svgo.optimize(
+          (await readFile(`${iconDir}/${inputFilename}`)).toString(),
+        ).data;
 
         const content = utils.dedent`
           export default class ${className} extends HTMLElement {
