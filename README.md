@@ -46,19 +46,24 @@ The generated files are not minified, but they are still lightweight:
 
 ```
 heroicons-wc
+├── 16
+│   └── solid
+│       ├── AcademicCap.js
+│       ├── AcademicCap.d.ts
+│       └── ...
 ├── 20
 │   └── solid
 │       ├── AcademicCap.js
-│       ├── AdjustmentsHorizontal.js
+│       ├── AcademicCap.d.ts
 │       └── ...
 └── 24
     ├── outline
     │   ├── AcademicCap.js
-    │   ├── AdjustmentsHorizontal.js
+    │   ├── AcademicCap.d.ts
     │   └── ...
     └── solid
         ├── AcademicCap.js
-        ├── AdjustmentsHorizontal.js
+        ├── AcademicCap.d.ts
         └── ...
 
 ```
