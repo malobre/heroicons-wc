@@ -157,7 +157,9 @@ await (async () => {
 
   const spinner = ora().start("Cleaning up previous build");
 
-  await Promise.all(sources.map((path) => rm(path, { recursive: true })));
+  await Promise.all(
+    sources.map((path) => rm(path, { recursive: true, force: true })),
+  );
 
   spinner.succeed().start("Creating artifacts directories");
 
