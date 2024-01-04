@@ -40,7 +40,7 @@ The generated files are not minified, but they are still lightweight:
 |-------------|-------|--------|---------|--------|
 | raw         | ~500B | ~2800B | ~830B   | ~770B  |
 | gzip        | ~360B | ~1200B | ~510B   | ~490B  |
-| bortli      | ~270B | ~1040B | ~410B   | ~390B  |
+| brotli      | ~270B | ~1040B | ~410B   | ~390B  |
 
 ## Package Structure
 
