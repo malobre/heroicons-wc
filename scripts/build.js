@@ -108,6 +108,12 @@ async function build(iconDir, distDir, tagPrefix) {
           (await readFile(`${iconDir}/${inputFilename}`)).toString(),
         ).data;
 
+        // Escape single quotes
+        const innerHTML = `${style}${svg}`.replaceAll(
+          /([^'\\]*(?:\\.[^'\\]*)*)'/g,
+          "$1\\'",
+        );
+
         const content = utils.dedent`
           export default class ${className} extends HTMLElement {
             constructor() {
@@ -116,7 +122,7 @@ async function build(iconDir, distDir, tagPrefix) {
               this.ariaHidden ??= "true";
 
               this.attachShadow({ mode: "open" }).innerHTML =
-                '${style}${svg}';
+                '${innerHTML}';
             }
           }
 
