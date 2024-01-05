@@ -14,20 +14,14 @@ and are self-registered in kebab-case with a `hi` prefix, e.g: `hi-20-solid-acad
 
 ## Usage
 
-```js
-import { html, LitElement } from "lit";
-import "heroicons-wc/24/outline/ShoppingCart";
-
-export default class MyElement extends LitElement {
-  render() {
-    return html`
-      Cart icon: <hi-24-outline-shopping-cart></hi-24-outline-shopping-cart>
-    `;
-  }
-}
-
-customElements.define("my-element", MyElement);
-```
+1. Import the icon:
+    ```js
+    import "heroicons-wc/24/outline/ShoppingCart";
+    ```
+1. Use it like any html element:
+    ```html
+    <hi-24-outline-shopping-cart></hi-24-outline-shopping-cart>
+    ```
 
 ## Typescript
 
@@ -74,4 +68,3 @@ This package (**not the icons**) is MIT licensed.
 
 [heroicons]: https://github.com/tailwindlabs/heroicons
 [web components]: https://developer.mozilla.org/en-US/docs/Web/Web_Components
-[lit]: https://lit.dev
