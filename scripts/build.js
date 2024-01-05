@@ -2,6 +2,7 @@ import { mkdir, readdir, readFile, writeFile, rm } from "node:fs/promises";
 import ora from "ora";
 import camelCase from "camelcase";
 import svgo from "svgo";
+import * as csso from "csso";
 
 const utils = {
   pascalCase: (str) => camelCase(str, { pascalCase: true }),
@@ -69,17 +70,7 @@ const utils = {
   },
 };
 
-// Will be injected in each icon component as-is.
-// Be careful with quotes and backslashes.
-const style = `
-  <style>
-    :host {
-      display: block;
-    }
-  </style>
-`.replaceAll(/[\n\r ]+/g, "");
-
-async function build(iconDir, distDir, tagPrefix) {
+async function build(iconDir, distDir, tagPrefix, css) {
   const entries = await readdir(iconDir, { withFileTypes: true });
 
   await Promise.all(
@@ -103,6 +94,8 @@ async function build(iconDir, distDir, tagPrefix) {
 
         const className = `${iconNamePascalCase}IconElement`;
         const tagName = `${tagPrefix}-${iconNameKebabCase}`;
+
+        const style = `<style>${csso.minify(css).css}</style>`;
 
         const svg = svgo.optimize(
           (await readFile(`${iconDir}/${inputFilename}`)).toString(),
@@ -172,6 +165,18 @@ await (async () => {
         `./node_modules/heroicons/${path}`,
         path,
         "hi-".concat(path.replace("/", "-")),
+        `
+          :host {
+            display: block;
+            ${
+              path.startsWith("24")
+                ? "width: 1.50rem; height: 1.50rem;"
+                : path.startsWith("20")
+                ? "width: 1.25rem; height: 1.25rem;"
+                : "width: 1.00rem; height: 1.00rem;"
+            }
+          }
+        `,
       ),
     ),
   );

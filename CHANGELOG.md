@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Components css now includes width & height.
+
 ## [0.3.1] - 2024-01-05
 
 ### Added
