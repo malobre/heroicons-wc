@@ -138,11 +138,8 @@ async function build(iconDir, distDir, tagPrefix) {
         `;
 
         await Promise.all([
-          writeFile(`${distDir}/${iconNamePascalCase}.js`, content.trim()),
-          writeFile(
-            `${distDir}/${iconNamePascalCase}.d.ts`,
-            declaration.trim(),
-          ),
+          writeFile(`${distDir}/${iconNamePascalCase}.js`, content),
+          writeFile(`${distDir}/${iconNamePascalCase}.d.ts`, declaration),
         ]);
       }),
   );
