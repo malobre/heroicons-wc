@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Components css now includes width & height.
+- Components css now includes width, height & `flex-shrink: 0`.
 
 ## [0.3.1] - 2024-01-05
 
