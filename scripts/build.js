@@ -169,6 +169,7 @@ await (async () => {
           :host {
             display: block;
             flex-shrink: 0;
+            line-height: 1;
             ${
               path.startsWith("24")
                 ? "width: 1.50rem; height: 1.50rem;"
