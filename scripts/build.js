@@ -173,8 +173,8 @@ await (async () => {
               path.startsWith("24")
                 ? "width: 1.50rem; height: 1.50rem;"
                 : path.startsWith("20")
-                ? "width: 1.25rem; height: 1.25rem;"
-                : "width: 1.00rem; height: 1.00rem;"
+                  ? "width: 1.25rem; height: 1.25rem;"
+                  : "width: 1.00rem; height: 1.00rem;"
             }
           }
         `,
