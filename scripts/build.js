@@ -1,11 +1,15 @@
 import { mkdir, readdir, readFile, writeFile, rm } from "node:fs/promises";
+import * as path from "node:path";
+import * as changeCase from "change-case";
 import ora from "ora";
-import camelCase from "camelcase";
 import svgo from "svgo";
 import * as csso from "csso";
 
 const utils = {
-  pascalCase: (str) => camelCase(str, { pascalCase: true }),
+  escapeSingleQuotes: (str) =>
+    str.includes("'")
+      ? str.replaceAll(/([^'\\]*(?:\\.[^'\\]*)*)'/g, "$1\\'")
+      : str,
 
   // Dedent, outdent, unindent ?
   // A tag function that removes:
@@ -70,118 +74,120 @@ const utils = {
   },
 };
 
-async function build({ iconDir, distDir, tagPrefix, css }) {
-  const entries = await readdir(iconDir, { withFileTypes: true });
+function build({ className, tagName, svg, css }) {
+  const minifiedCss = `<style>${csso.minify(css).css}</style>`;
+  const minifiedSvg = svgo.optimize(svg).data;
 
-  await Promise.all(
-    entries
-      .filter((entry) => {
-        if (!entry.isFile()) {
-          console.warn(`\nSkipping non-file entry: ${entry.name}`);
-          return false;
+  const innerHTML = utils.escapeSingleQuotes(`${minifiedCss}${minifiedSvg}`);
+
+  return {
+    js: utils.dedent`
+      export default class ${className} extends HTMLElement {
+        constructor() {
+          super();
+
+          this.ariaHidden ??= "true";
+
+          this.attachShadow({ mode: "open" }).innerHTML =
+            '${innerHTML}';
         }
+      }
 
-        if (!entry.name.endsWith(".svg")) {
-          console.warn(`\nSkipping non-svg entry: ${entry.name}`);
-          return false;
+      if (!Object.is(customElements.get("${tagName}"), ${className})) {
+        window.customElements.define("${tagName}", ${className});
+      }
+    `,
+    dts: utils.dedent`
+      export default class ${className} extends HTMLElement {
+        constructor();
+      }
+
+      declare global {
+        interface HTMLElementTagNameMap {
+          "${tagName}": ${className};
         }
-
-        return true;
-      })
-      .map(async ({ name: inputFilename }) => {
-        const iconNameKebabCase = inputFilename.replace(/\.svg$/, "");
-        const iconNamePascalCase = utils.pascalCase(iconNameKebabCase);
-
-        const className = `Heroicon${iconNamePascalCase}Element`;
-        const tagName = `${tagPrefix}-${iconNameKebabCase}`;
-
-        const style = `<style>${csso.minify(css).css}</style>`;
-
-        const svg = svgo.optimize(
-          (await readFile(`${iconDir}/${inputFilename}`)).toString(),
-        ).data;
-
-        // Escape single quotes
-        const innerHTML = `${style}${svg}`.replaceAll(
-          /([^'\\]*(?:\\.[^'\\]*)*)'/g,
-          "$1\\'",
-        );
-
-        const content = utils.dedent`
-          export default class ${className} extends HTMLElement {
-            constructor() {
-              super();
-
-              this.ariaHidden ??= "true";
-
-              this.attachShadow({ mode: "open" }).innerHTML =
-                '${innerHTML}';
-            }
-          }
-
-          if (!Object.is(customElements.get("${tagName}"), ${className})) {
-            window.customElements.define("${tagName}", ${className});
-          }
-        `;
-
-        const declaration = utils.dedent`
-          export default class ${className} extends HTMLElement {
-            constructor();
-          }
-
-          declare global {
-            interface HTMLElementTagNameMap {
-              "${tagName}": ${className};
-            }
-          }
-        `;
-
-        await Promise.all([
-          writeFile(`${distDir}/${iconNamePascalCase}.js`, content),
-          writeFile(`${distDir}/${iconNamePascalCase}.d.ts`, declaration),
-        ]);
-      }),
-  );
+      }
+    `,
+  };
 }
 
 await (async () => {
-  const sources = ["24/solid", "24/outline", "20/solid", "16/solid"];
+  const iconDirPaths = ["24/solid", "24/outline", "20/solid", "16/solid"];
 
   const spinner = ora().start("Cleaning up previous build");
 
   await Promise.all(
-    sources.map((path) => rm(path, { recursive: true, force: true })),
+    iconDirPaths.map(async (path) => {
+      await rm(path, { recursive: true, force: true });
+    }),
   );
 
   spinner.succeed().start("Creating artifacts directories");
 
-  await Promise.all(sources.map((path) => mkdir(path, { recursive: true })));
+  await Promise.all(
+    iconDirPaths.map(async (path) => {
+      await mkdir(path, { recursive: true });
+    }),
+  );
 
   spinner.succeed().start("Generating web components");
 
-  await Promise.all(
-    sources.map((path) =>
-      build({
-        iconDir: `./node_modules/heroicons/${path}`,
-        distDir: path,
-        tagPrefix: "hi-".concat(path.replace("/", "-")),
-        css: `
-          :host {
-            display: block;
-            flex-shrink: 0;
-            line-height: 1;
-            ${
-              path.startsWith("24")
-                ? "width: 1.50rem; height: 1.50rem;"
-                : path.startsWith("20")
-                  ? "width: 1.25rem; height: 1.25rem;"
-                  : "width: 1.00rem; height: 1.00rem;"
-            }
-          }
-        `,
-      }),
-    ),
-  );
+  const promises = [];
+
+  for (const iconDirPath of iconDirPaths) {
+    for (const dirEntry of await readdir(
+      path.join("node_modules", "heroicons", iconDirPath),
+      { withFileTypes: true },
+    )) {
+      if (!dirEntry.isFile()) {
+        console.warn(`\nSkipping non-file entry: ${dirEntry.name}`);
+        continue;
+      }
+
+      if (!dirEntry.name.endsWith(".svg")) {
+        console.warn(`\nSkipping non-svg entry: ${dirEntry.name}`);
+        continue;
+      }
+
+      promises.push(
+        readFile(path.join(dirEntry.parentPath, dirEntry.name), {
+          encoding: "utf-8",
+        }).then(async (svg) => {
+          const name = dirEntry.name.replace(/\.svg$/, "");
+          const iconNamePascalCase = changeCase.pascalCase(name, {
+            mergeAmbiguousCharacters: true,
+          });
+
+          const { js, dts } = build({
+            className: `Heroicon${iconNamePascalCase}Element`,
+            tagName: `hi-${changeCase.kebabCase(iconDirPath)}-${changeCase.kebabCase(name)}`,
+            svg,
+            css: `
+              :host {
+                display: block;
+                flex-shrink: 0;
+                line-height: 1;
+                ${
+                  iconDirPath.startsWith("24")
+                    ? "width: 1.50rem; height: 1.50rem;"
+                    : iconDirPath.startsWith("20")
+                      ? "width: 1.25rem; height: 1.25rem;"
+                      : "width: 1.00rem; height: 1.00rem;"
+                }
+              }
+            `,
+          });
+
+          await Promise.all([
+            writeFile(`${iconDirPath}/${iconNamePascalCase}.js`, js),
+            writeFile(`${iconDirPath}/${iconNamePascalCase}.d.ts`, dts),
+          ]);
+        }),
+      );
+    }
+  }
+
+  await Promise.all(promises);
 
   spinner.succeed();
 })();

@@ -5,14 +5,18 @@
   "author": "Maël Obréjan <mael.obrejan@protonmail.com>",
   "description": "Heroicons as Web Components",
   "type": "module",
-  "files": ["24/", "20/", "16/"],
+  "files": [
+    "24/",
+    "20/",
+    "16/"
+  ],
   "scripts": {
     "prepare": "node ./scripts/build.js"
   },
   "devDependencies": {
-    "heroicons": "^2.1.1",
-    "camelcase": "^8.0.0",
+    "change-case": "^5.4.4",
     "csso": "^5.0.5",
+    "heroicons": "^2.1.1",
     "ora": "^8.0.1",
     "svgo": "^3.3.2"
   }
