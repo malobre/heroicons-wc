@@ -92,7 +92,7 @@ async function build({ iconDir, distDir, tagPrefix, css }) {
         const iconNameKebabCase = inputFilename.replace(/\.svg$/, "");
         const iconNamePascalCase = utils.pascalCase(iconNameKebabCase);
 
-        const className = `${iconNamePascalCase}IconElement`;
+        const className = `Heroicon${iconNamePascalCase}Element`;
         const tagName = `${tagPrefix}-${iconNameKebabCase}`;
 
         const style = `<style>${csso.minify(css).css}</style>`;
