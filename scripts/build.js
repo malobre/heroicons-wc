@@ -46,7 +46,7 @@ const utils = {
       if (indentation === undefined) continue;
 
       // new minimum indentation
-      if (indentation < (minIndentation ?? Infinity)) {
+      if (minIndentation === undefined || indentation < minIndentation) {
         minIndentation = indentation;
 
         // short-circuit absolute minimum
