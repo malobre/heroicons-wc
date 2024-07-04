@@ -70,7 +70,7 @@ const utils = {
   },
 };
 
-async function build(iconDir, distDir, tagPrefix, css) {
+async function build({ iconDir, distDir, tagPrefix, css }) {
   const entries = await readdir(iconDir, { withFileTypes: true });
 
   await Promise.all(
@@ -161,11 +161,11 @@ await (async () => {
 
   await Promise.all(
     sources.map((path) =>
-      build(
-        `./node_modules/heroicons/${path}`,
-        path,
-        "hi-".concat(path.replace("/", "-")),
-        `
+      build({
+        iconDir: `./node_modules/heroicons/${path}`,
+        distDir: path,
+        tagPrefix: "hi-".concat(path.replace("/", "-")),
+        css: `
           :host {
             display: block;
             flex-shrink: 0;
@@ -179,7 +179,7 @@ await (async () => {
             }
           }
         `,
-      ),
+      }),
     ),
   );
 
