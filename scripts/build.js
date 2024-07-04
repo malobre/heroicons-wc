@@ -2,8 +2,8 @@ import { mkdir, readdir, readFile, writeFile, rm } from "node:fs/promises";
 import * as path from "node:path";
 import * as changeCase from "change-case";
 import ora from "ora";
-import svgo from "svgo";
 import * as csso from "csso";
+import { minify as minifyHtml } from "html-minifier-terser";
 
 const utils = {
   escapeSingleQuotes: (str) =>
@@ -74,42 +74,37 @@ const utils = {
   },
 };
 
-function build({ className, tagName, svg, css }) {
-  const minifiedCss = `<style>${csso.minify(css).css}</style>`;
-  const minifiedSvg = svgo.optimize(svg).data;
+const build = async ({ className, tagName, svg, css }) => ({
+  js: utils.dedent`
+    export default class ${className} extends HTMLElement {
+      constructor() {
+        super();
 
-  const innerHTML = utils.escapeSingleQuotes(`${minifiedCss}${minifiedSvg}`);
+        this.ariaHidden ??= "true";
 
-  return {
-    js: utils.dedent`
-      export default class ${className} extends HTMLElement {
-        constructor() {
-          super();
-
-          this.ariaHidden ??= "true";
-
-          this.attachShadow({ mode: "open" }).innerHTML =
-            '${innerHTML}';
-        }
+        this.attachShadow({ mode: "open" }).innerHTML =
+          '${utils.escapeSingleQuotes(
+            `<style>${csso.minify(css).css}</style>${await minifyHtml(svg, { collapseWhitespace: true })}`,
+          )}';
       }
+    }
 
-      if (!Object.is(customElements.get("${tagName}"), ${className})) {
-        window.customElements.define("${tagName}", ${className});
-      }
-    `,
-    dts: utils.dedent`
-      export default class ${className} extends HTMLElement {
-        constructor();
-      }
+    if (!Object.is(customElements.get("${tagName}"), ${className})) {
+      window.customElements.define("${tagName}", ${className});
+    }
+  `,
+  dts: utils.dedent`
+    export default class ${className} extends HTMLElement {
+      constructor();
+    }
 
-      declare global {
-        interface HTMLElementTagNameMap {
-          "${tagName}": ${className};
-        }
+    declare global {
+      interface HTMLElementTagNameMap {
+        "${tagName}": ${className};
       }
-    `,
-  };
-}
+    }
+  `,
+});
 
 await (async () => {
   const iconDirPaths = ["24/solid", "24/outline", "20/solid", "16/solid"];
@@ -144,7 +139,7 @@ await (async () => {
         continue;
       }
 
-      if (!dirEntry.name.endsWith(".svg")) {
+      if (path.extname(dirEntry.name) !== ".svg") {
         console.warn(`\nSkipping non-svg entry: ${dirEntry.name}`);
         continue;
       }
@@ -158,7 +153,7 @@ await (async () => {
             mergeAmbiguousCharacters: true,
           });
 
-          const { js, dts } = build({
+          const { js, dts } = await build({
             className: `Heroicon${iconNamePascalCase}Element`,
             tagName: `hi-${changeCase.kebabCase(iconDirPath)}-${changeCase.kebabCase(name)}`,
             svg,

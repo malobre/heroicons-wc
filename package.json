@@ -17,7 +17,7 @@
     "change-case": "^5.4.4",
     "csso": "^5.0.5",
     "heroicons": "^2.1.1",
-    "ora": "^8.0.1",
-    "svgo": "^3.3.2"
+    "html-minifier-terser": "^7.2.0",
+    "ora": "^8.0.1"
   }
 }
