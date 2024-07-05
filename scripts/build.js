@@ -142,11 +142,17 @@ await (async () => {
   const promises = [];
 
   for (const iconDirPath of iconDirPaths) {
-    const size = iconDirPath.startsWith("24")
-      ? "width: 1.50rem; height: 1.50rem;"
-      : iconDirPath.startsWith("20")
-        ? "width: 1.25rem; height: 1.25rem;"
-        : "width: 1.00rem; height: 1.00rem;";
+    let size;
+
+    if (iconDirPath.startsWith("24")) {
+      size = "width: 1.5rem; height: 1.5rem;";
+    } else if (iconDirPath.startsWith("20")) {
+      size = "width: 1.25rem; height: 1.25rem;";
+    } else if (iconDirPath.startsWith("16")) {
+      size = "width: 1rem; height: 1rem;";
+    } else {
+      throw "FIXME: unknown size";
+    }
 
     for (const dirEntry of await readdir(
       path.join("node_modules", "heroicons", iconDirPath),
