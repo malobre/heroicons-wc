@@ -166,7 +166,7 @@ await (async () => {
             css: `
               :host {
                 display: block;
-                flex-shrink: 0;
+                flex: none;
                 line-height: 1;
                 ${size}
               }

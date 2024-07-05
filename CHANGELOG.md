@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Components class names are now formatted as `Heroicon<Name>Element` instead of `<Name>IconElement`.
+- Components are now `flex: none` instead of `flex-shrink: 0`, preventing both growing and shrinking.
 
 ## [0.4.0] - 2024-01-05
 
