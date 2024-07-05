@@ -130,6 +130,12 @@ await (async () => {
   const promises = [];
 
   for (const iconDirPath of iconDirPaths) {
+    const size = iconDirPath.startsWith("24")
+      ? "width: 1.50rem; height: 1.50rem;"
+      : iconDirPath.startsWith("20")
+        ? "width: 1.25rem; height: 1.25rem;"
+        : "width: 1.00rem; height: 1.00rem;";
+
     for (const dirEntry of await readdir(
       path.join("node_modules", "heroicons", iconDirPath),
       { withFileTypes: true },
@@ -162,13 +168,7 @@ await (async () => {
                 display: block;
                 flex-shrink: 0;
                 line-height: 1;
-                ${
-                  iconDirPath.startsWith("24")
-                    ? "width: 1.50rem; height: 1.50rem;"
-                    : iconDirPath.startsWith("20")
-                      ? "width: 1.25rem; height: 1.25rem;"
-                      : "width: 1.00rem; height: 1.00rem;"
-                }
+                ${size}
               }
             `,
           });
