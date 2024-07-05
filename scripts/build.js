@@ -74,6 +74,13 @@ const utils = {
   },
 };
 
+/**
+ * @param {Object} options
+ * @param {string} options.className
+ * @param {string} options.tagName
+ * @param {string} options.svg
+ * @param {string} options.css
+ */
 const build = async ({ className, tagName, svg, css }) => ({
   js: utils.dedent`
     export default class ${className} extends HTMLElement {
@@ -107,7 +114,12 @@ const build = async ({ className, tagName, svg, css }) => ({
 });
 
 await (async () => {
-  const iconDirPaths = ["24/solid", "24/outline", "20/solid", "16/solid"];
+  const iconDirPaths = /** @type {const} */ ([
+    "24/solid",
+    "24/outline",
+    "20/solid",
+    "16/solid",
+  ]);
 
   const spinner = ora().start("Cleaning up previous build");
 
