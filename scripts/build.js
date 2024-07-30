@@ -145,11 +145,11 @@ await (async () => {
     let size;
 
     if (iconDirPath.startsWith("24")) {
-      size = "width: 1.5rem; height: 1.5rem;";
+      size = "1.5rem";
     } else if (iconDirPath.startsWith("20")) {
-      size = "width: 1.25rem; height: 1.25rem;";
+      size = "1.25rem";
     } else if (iconDirPath.startsWith("16")) {
-      size = "width: 1rem; height: 1rem;";
+      size = "1rem";
     } else {
       throw "FIXME: unknown size";
     }
@@ -186,7 +186,8 @@ await (async () => {
                 display: block;
                 flex: none;
                 line-height: 1;
-                ${size}
+                width: ${size};
+                height: ${size};
               }
             `,
           });
