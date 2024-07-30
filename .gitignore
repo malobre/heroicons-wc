@@ -1,6 +1,4 @@
 /node_modules/
 *.tgz
 
-/24/
-/20/
-/16/
+/dist/

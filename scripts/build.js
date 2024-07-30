@@ -123,19 +123,11 @@ await (async () => {
 
   const spinner = ora().start("Cleaning up previous build");
 
-  await Promise.all(
-    iconDirPaths.map(async (path) => {
-      await rm(path, { recursive: true, force: true });
-    }),
-  );
+  await rm("dist", { recursive: true, force: true });
 
   spinner.succeed().start("Creating artifacts directories");
 
-  await Promise.all(
-    iconDirPaths.map(async (path) => {
-      await mkdir(path, { recursive: true });
-    }),
-  );
+  await mkdir("dist", { recursive: true });
 
   spinner.succeed().start("Generating web components");
 
@@ -177,9 +169,11 @@ await (async () => {
             mergeAmbiguousCharacters: true,
           });
 
+          const tagName = `hi-${changeCase.kebabCase(iconDirPath)}-${changeCase.kebabCase(name)}`;
+
           const { js, dts } = await build({
             className: `Heroicon${iconNamePascalCase}Element`,
-            tagName: `hi-${changeCase.kebabCase(iconDirPath)}-${changeCase.kebabCase(name)}`,
+            tagName,
             svg,
             css: `
               :host {
@@ -193,8 +187,8 @@ await (async () => {
           });
 
           await Promise.all([
-            writeFile(`${iconDirPath}/${iconNamePascalCase}.js`, js),
-            writeFile(`${iconDirPath}/${iconNamePascalCase}.d.ts`, dts),
+            writeFile(path.join("dist", `${tagName}.js`), js),
+            writeFile(path.join("dist", `${tagName}.d.ts`), dts),
           ]);
         }),
       );

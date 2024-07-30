@@ -2,8 +2,8 @@
 
 This package consist of a build script that generate web components for every heroicon.
 
-Once generated, icon components are stored in individual files in PascalCase (e.g: `20/solid/AcademicCap.js`)
-and are self-registered in kebab-case with a `hi` prefix, e.g: `hi-20-solid-academic-cap`.
+Once generated, icon components are stored in individual files, with the following naming scheme:
+`hi-<SIZE>-<NAME>.js`, e.g: `hi-20-solid-academic-cap.js`, and are self-registered.
 
 ## Installation
 
@@ -16,7 +16,7 @@ and are self-registered in kebab-case with a `hi` prefix, e.g: `hi-20-solid-acad
 
 1. Import the icon:
     ```js
-    import "heroicons-wc/24/outline/ShoppingCart";
+    import "heroicons-wc/hi-24-outline-shopping-cart.js";
     ```
 1. Use it like any html element:
     ```html
@@ -40,26 +40,9 @@ The generated files are not minified, but they are still lightweight:
 
 ```
 heroicons-wc
-├── 16
-│   └── solid
-│       ├── AcademicCap.js
-│       ├── AcademicCap.d.ts
-│       └── ...
-├── 20
-│   └── solid
-│       ├── AcademicCap.js
-│       ├── AcademicCap.d.ts
-│       └── ...
-└── 24
-    ├── outline
-    │   ├── AcademicCap.js
-    │   ├── AcademicCap.d.ts
-    │   └── ...
-    └── solid
-        ├── AcademicCap.js
-        ├── AcademicCap.d.ts
-        └── ...
-
+├── hi-16-solid-academic-cap.js
+├── hi-16-solid-academic-cap.d.ts
+└── ...
 ```
 
 ## License
