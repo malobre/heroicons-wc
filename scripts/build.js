@@ -159,12 +159,12 @@ await (async () => {
       { withFileTypes: true },
     )) {
       if (!dirEntry.isFile()) {
-        console.warn(`\nSkipping non-file entry: ${dirEntry.name}`);
+        console.warn(`\rSkipping non-file entry: ${dirEntry.name}`);
         continue;
       }
 
       if (path.extname(dirEntry.name) !== ".svg") {
-        console.warn(`\nSkipping non-svg entry: ${dirEntry.name}`);
+        console.warn(`\rSkipping non-svg entry: ${dirEntry.name}`);
         continue;
       }
 
