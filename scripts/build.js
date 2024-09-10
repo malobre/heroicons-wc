@@ -87,12 +87,14 @@ const build = async ({ className, tagName, svg, css }) => ({
       constructor() {
         super();
 
-        this.ariaHidden ??= "true";
-
         this.attachShadow({ mode: "open" }).innerHTML =
           '${utils.escapeSingleQuotes(
             `<style>${csso.minify(css).css}</style>${await minifyHtml(svg, { collapseWhitespace: true })}`,
           )}';
+      }
+
+      connectedCallback() {
+        this.ariaHidden ??= "true";
       }
     }
 
