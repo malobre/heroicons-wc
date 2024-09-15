@@ -81,7 +81,7 @@ const utils = {
  * @param {string} options.svg
  * @param {string} options.css
  */
-const build = async ({ className, tagName, svg, css }) => ({
+const transpile = async ({ className, tagName, svg, css }) => ({
   js: utils.dedent`
     export default class ${className} extends HTMLElement {
       constructor() {
@@ -171,7 +171,7 @@ await (async () => {
 
           const tagName = `hi-${changeCase.kebabCase(iconDirPath)}-${changeCase.kebabCase(name)}`;
 
-          const { js, dts } = await build({
+          const { js, dts } = await transpile({
             className: `Heroicon${iconNamePascalCase}Element`,
             tagName,
             svg,
