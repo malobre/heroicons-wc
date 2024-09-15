@@ -87,7 +87,7 @@ const transpile = async ({ className, tagName, svg, css }) => ({
       constructor() {
         super();
 
-        this.ariaHidden ??= "true";
+        this.attachInternals().ariaHidden = true;
 
         this.attachShadow({ mode: "open" }).innerHTML =
           '${utils.escapeSingleQuotes(
