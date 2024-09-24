@@ -10,7 +10,7 @@ Once generated, icon components are stored in individual files, with the followi
 1. Clone repo
 1. `npm pack`
 1. Move artifact to your project (e.g: in a `vendor` directory)
-1. Install (e.g: `npm i vendor/heroicons-wc-x.x.x.tgz`)
+1. Install (e.g: `npm i file:vendor/heroicons-wc-x.x.x.tgz`)
 
 ## Usage
 
