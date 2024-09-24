@@ -32,9 +32,9 @@ The build script also generate declaration files for every component.
 The generated files are not minified, but they are still lightweight:
 | compression | min   | max    | average | median |
 |-------------|-------|--------|---------|--------|
-| raw         | ~605B | ~3089B | ~1008B  | ~950B  |
-| gzip        | ~418B | ~1300B | ~594B   | ~575B  |
-| brotli      | ~299B | ~1081B | ~462B   | ~448B  |
+| raw         | ~619B | ~3103B | ~1022B  | ~964B  |
+| gzip        | ~425B | ~1315B | ~601B   | ~582B  |
+| brotli      | ~305B | ~1083B | ~464B   | ~449B  |
 
 ## Package Structure
 
