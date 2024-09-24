@@ -19,6 +19,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Components are now `flex: none` instead of `flex-shrink: 0`, preventing both growing and shrinking.
 - Components file names now match their tag names
 
+### Fixed
+
+- aria hidden default value is now set with the `ElementInternals` API instead of setting the
+  attribute value in the constructor (which wasn't compliant with the HTML Living Standard).
+
 ## [0.4.0] - 2024-01-05
 
 ### Changed
