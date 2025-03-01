@@ -1,6 +1,6 @@
 # [Heroicons] as [Web Components]
 
-This package consist of a build script that generate web components for every heroicon.
+This package provides a build script that generates web components for each heroicon.
 
 Once generated, icon components are stored in individual files, with the following naming scheme:
 `hi-<SIZE>-<NAME>.js`, e.g: `hi-20-solid-academic-cap.js`, and are self-registered.
@@ -25,11 +25,11 @@ Once generated, icon components are stored in individual files, with the followi
 
 ## Typescript
 
-The build script also generate declaration files for every component.
+Declaration files are generated for each icon component.
 
 ## Files sizes
 
-The generated files are not minified, but they are still lightweight:
+Generated files are not minified, but they are still lightweight:
 | compression | min   | max    | average | median |
 |-------------|-------|--------|---------|--------|
 | raw         | ~619B | ~3103B | ~1022B  | ~964B  |
