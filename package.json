@@ -15,7 +15,7 @@
   "devDependencies": {
     "change-case": "^5.4.4",
     "csso": "^5.0.5",
-    "heroicons": "^2.1.1",
+    "heroicons": "^2.2.0",
     "html-minifier-terser": "^7.2.0",
     "ora": "^9.0.0"
   }
