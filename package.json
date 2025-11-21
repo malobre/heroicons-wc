@@ -17,6 +17,6 @@
     "csso": "^5.0.5",
     "heroicons": "^2.1.1",
     "html-minifier-terser": "^7.2.0",
-    "ora": "^8.0.1"
+    "ora": "^9.0.0"
   }
 }
