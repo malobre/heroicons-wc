@@ -152,7 +152,7 @@ await (async () => {
         readFile(path.join(dirEntry.parentPath, dirEntry.name), {
           encoding: "utf-8",
         }).then(async (svg) => {
-          const iconNameRaw = dirEntry.name.replace(/\.svg$/, "");
+          const iconNameRaw = path.basename(dirEntry.name, ".svg");
 
           const iconNamePascalCase = changeCase.pascalCase(iconNameRaw, {
             mergeAmbiguousCharacters: true,
