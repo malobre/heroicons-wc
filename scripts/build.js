@@ -131,8 +131,7 @@ await (async () => {
 
   spinner.succeed().start("Generating web components");
 
-  const promises = [];
-
+  const transpilePromises = [];
 
   for (const group of iconsGroups) {
     for (const dirEntry of await readdir(
@@ -149,7 +148,7 @@ await (async () => {
         continue;
       }
 
-      promises.push(
+      transpilePromises.push(
         readFile(path.join(dirEntry.parentPath, dirEntry.name), {
           encoding: "utf-8",
         }).then(async (svg) => {
@@ -185,7 +184,7 @@ await (async () => {
     }
   }
 
-  await Promise.all(promises);
+  await Promise.all(transpilePromises);
 
   spinner.succeed();
 })();
