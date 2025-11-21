@@ -10,9 +10,11 @@
     "./*": "./dist/*"
   },
   "scripts": {
-    "prepare": "node ./scripts/build.js"
+    "prepare": "node ./scripts/build.js",
+    "tidy": "biome check --write"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.3.7",
     "change-case": "^5.4.4",
     "csso": "^5.0.5",
     "heroicons": "^2.2.0",
