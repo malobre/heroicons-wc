@@ -1,9 +1,9 @@
-import { mkdir, readdir, readFile, writeFile, rm } from "node:fs/promises";
+import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import * as path from "node:path";
 import * as changeCase from "change-case";
-import ora from "ora";
 import * as csso from "csso";
 import { minify as minifyHtml } from "html-minifier-terser";
+import ora from "ora";
 
 const utils = {
   escapeSingleQuotes: (str) =>
