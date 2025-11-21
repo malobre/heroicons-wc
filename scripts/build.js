@@ -114,11 +114,11 @@ const transpile = async ({ className, tagName, svg, css }) => ({
 });
 
 await (async () => {
-  const iconDirPaths = /** @type {const} */ ([
-    "24/solid",
-    "24/outline",
-    "20/solid",
-    "16/solid",
+  const iconsGroups = /** @type {const} */ ([
+    { path: "24/solid", name: "solid", size: "1.5rem" },
+    { path: "24/outline", name: "outline", size: "1.5rem" },
+    { path: "20/solid", name: "mini", size: "1.25rem" },
+    { path: "16/solid", name: "micro", size: "1rem" },
   ]);
 
   const spinner = ora().start("Cleaning up previous build");
@@ -133,21 +133,10 @@ await (async () => {
 
   const promises = [];
 
-  for (const iconDirPath of iconDirPaths) {
-    let size;
 
-    if (iconDirPath.startsWith("24")) {
-      size = "1.5rem";
-    } else if (iconDirPath.startsWith("20")) {
-      size = "1.25rem";
-    } else if (iconDirPath.startsWith("16")) {
-      size = "1rem";
-    } else {
-      throw "FIXME: unknown size";
-    }
-
+  for (const group of iconsGroups) {
     for (const dirEntry of await readdir(
-      path.join("node_modules", "heroicons", iconDirPath),
+      path.join("node_modules", "heroicons", group.path),
       { withFileTypes: true },
     )) {
       if (!dirEntry.isFile()) {
@@ -164,12 +153,13 @@ await (async () => {
         readFile(path.join(dirEntry.parentPath, dirEntry.name), {
           encoding: "utf-8",
         }).then(async (svg) => {
-          const name = dirEntry.name.replace(/\.svg$/, "");
-          const iconNamePascalCase = changeCase.pascalCase(name, {
+          const iconNameRaw = dirEntry.name.replace(/\.svg$/, "");
+
+          const iconNamePascalCase = changeCase.pascalCase(iconNameRaw, {
             mergeAmbiguousCharacters: true,
           });
 
-          const tagName = `hi-${changeCase.kebabCase(iconDirPath)}-${changeCase.kebabCase(name)}`;
+          const tagName = `hi-${changeCase.kebabCase(group.name)}-${changeCase.kebabCase(iconNameRaw)}`;
 
           const { js, dts } = await transpile({
             className: `Heroicon${iconNamePascalCase}Element`,
@@ -180,8 +170,8 @@ await (async () => {
                 display: block;
                 flex: none;
                 line-height: 1;
-                width: ${size};
-                height: ${size};
+                width: ${group.size};
+                height: ${group.size};
               }
             `,
           });

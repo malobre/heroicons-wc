@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **BREAKING**: Components tags are now prefixed by its set name instead of its size, e.g. `hi-SET-`, where `SET` is one of `outline`, `solid`, `mini`, `micro`.
+
 ## [0.5.0] - 2024-09-24
 
 ### Added

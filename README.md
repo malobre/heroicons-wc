@@ -3,7 +3,7 @@
 This package provides a build script that generates web components for each heroicon.
 
 Once generated, icon components are stored in individual files, with the following naming scheme:
-`hi-<SIZE>-<NAME>.js`, e.g: `hi-20-solid-academic-cap.js`, and are self-registered.
+`hi-<SET>-<NAME>.js`, e.g: `hi-solid-academic-cap.js`, and are self-registered.
 
 ## Installation
 
@@ -16,11 +16,11 @@ Once generated, icon components are stored in individual files, with the followi
 
 1. Import the icon:
     ```js
-    import "heroicons-wc/hi-24-outline-shopping-cart.js";
+    import "heroicons-wc/hi-outline-shopping-cart.js";
     ```
 1. Use it like any html element:
     ```html
-    <hi-24-outline-shopping-cart></hi-24-outline-shopping-cart>
+    <hi-outline-shopping-cart></hi-outline-shopping-cart>
     ```
 
 ## Typescript
@@ -40,8 +40,8 @@ Generated files are not minified, but they are still lightweight:
 
 ```
 heroicons-wc
-├── hi-16-solid-academic-cap.js
-├── hi-16-solid-academic-cap.d.ts
+├── hi-solid-academic-cap.js
+├── hi-solid-academic-cap.d.ts
 └── ...
 ```
 
